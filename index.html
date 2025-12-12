@@ -24,6 +24,7 @@ body{
   color:var(--text);
 }
 .wrap{max-width:980px;margin:auto;padding:24px}
+
 header{
   background:linear-gradient(90deg,var(--orange),#ff9d3a);
   color:#fff;
@@ -62,7 +63,13 @@ input,select{
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .row4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .weights{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px}
-.wbox{border:1px dashed var(--orange);border-radius:12px;padding:10px;text-align:center}
+.wbox{
+  border:1px dashed var(--orange);
+  border-radius:12px;
+  padding:10px;
+  text-align:center;
+  font-weight:700;
+}
 button{
   border:0;
   padding:10px 14px;
@@ -103,6 +110,7 @@ button{
 
 <div class="grid">
 
+<!-- ENTRADA -->
 <div class="card">
 <h2>Dados do aluno</h2>
 
@@ -115,51 +123,52 @@ button{
 <div class="weights" id="weights"></div>
 
 <div class="row">
-<div>
-<label>Nota de corte</label>
-<input id="corte" type="number">
-</div>
-<div>
-<label>Possível redação</label>
-<input id="red" type="number">
-</div>
+  <div>
+    <label>Nota de corte</label>
+    <input id="corte" type="number">
+  </div>
+  <div>
+    <label>Possível redação</label>
+    <input id="red" type="number">
+  </div>
 </div>
 
 <h2>Notas</h2>
 
 <label>1ª série</label>
 <div class="row4">
-<input id="mat1" placeholder="MAT">
-<input id="lin1" placeholder="LIN">
-<input id="hum1" placeholder="HUM">
-<input id="nat1" placeholder="NAT">
+  <input id="mat1" placeholder="MAT">
+  <input id="lin1" placeholder="LIN">
+  <input id="hum1" placeholder="HUM">
+  <input id="nat1" placeholder="NAT">
 </div>
 
 <label>2ª série</label>
 <div class="row4">
-<input id="mat2">
-<input id="lin2">
-<input id="hum2">
-<input id="nat2">
+  <input id="mat2" placeholder="MAT">
+  <input id="lin2" placeholder="LIN">
+  <input id="hum2" placeholder="HUM">
+  <input id="nat2" placeholder="NAT">
 </div>
 
 <div style="margin-top:14px">
-<button class="primary" onclick="calcular()">Calcular</button>
-<button class="ghost" onclick="limpar()">Limpar</button>
+  <button class="primary" onclick="calcular()">Calcular</button>
+  <button class="ghost" onclick="limpar()">Limpar</button>
 </div>
 </div>
 
+<!-- SAÍDA -->
 <div class="card">
 <h2>Resultado</h2>
 <div id="out" class="out hidden">
-<div class="big">
-<div>Média necessária 3ª etapa</div>
-<div class="v" id="out3">0,00</div>
-</div>
-<div class="big">
-<div>Média sem redação</div>
-<div class="v" id="outSem">0,00</div>
-</div>
+  <div class="big">
+    <div>Média necessária 3ª etapa</div>
+    <div class="v" id="out3">0,00</div>
+  </div>
+  <div class="big">
+    <div>Média sem redação</div>
+    <div class="v" id="outSem">0,00</div>
+  </div>
 </div>
 </div>
 
@@ -167,6 +176,9 @@ button{
 </div>
 
 <script>
+/* ===============================
+   PESOS — TODOS FUNCIONAIS
+================================ */
 const PESOS = {
   "ADMINISTRAÇÃO - BACHARELADO": { red:2, mat:1, lin:1, hum:1, nat:1 },
   "AGRONOMIA - BACHARELADO": { red:2, mat:2, lin:1, hum:1, nat:2 },
@@ -225,50 +237,85 @@ const PESOS = {
   "ZOOTECNIA - BACHARELADO": { red:2, mat:1, lin:1, hum:1, nat:3 }
 };
 
-const $=id=>document.getElementById(id);
-const fmt=n=>Number(n).toFixed(2).replace(".",",");
+/* ===============================
+   Helpers
+================================ */
+const $ = id => document.getElementById(id);
+const num = v => Number(v) || 0;
+const fmt = n => n.toFixed(2).replace(".",",");
 
-function preencher(){
-$("curso").innerHTML=Object.keys(PESOS_CURSOS).map(c=>`<option>${c}</option>`).join("");
-render();
+/* ===============================
+   Preencher cursos
+================================ */
+function preencherCursos(){
+  $("curso").innerHTML = Object.keys(PESOS)
+    .sort((a,b)=>a.localeCompare(b,'pt-BR'))
+    .map(c=>`<option value="${c}">${c}</option>`)
+    .join("");
+  renderPesos();
 }
 
-function render(){
-const w=PESOS_CURSOS[$("curso").value];
-$("weights").innerHTML=`
-<div class="wbox">${w.red}<br>RED</div>
-<div class="wbox">${w.mat}<br>MAT</div>
-<div class="wbox">${w.lin}<br>LIN</div>
-<div class="wbox">${w.hum}<br>HUM</div>
-<div class="wbox">${w.nat}<br>NAT</div>`;
+/* ===============================
+   Mostrar pesos
+================================ */
+function renderPesos(){
+  const w = PESOS[$("curso").value];
+  if(!w) return;
+
+  $("weights").innerHTML = `
+    <div class="wbox">${w.red}<br>RED</div>
+    <div class="wbox">${w.mat}<br>MAT</div>
+    <div class="wbox">${w.lin}<br>LIN</div>
+    <div class="wbox">${w.hum}<br>HUM</div>
+    <div class="wbox">${w.nat}<br>NAT</div>
+  `;
 }
 
-$("curso").onchange=render;
-
+/* ===============================
+   Calcular
+================================ */
 function calcular(){
-const w=PESOS_CURSOS[$("curso").value];
-const soma=w.mat+w.lin+w.hum+w.nat;
+  const w = PESOS[$("curso").value];
+  if(!w) return;
 
-const m1=($("mat1").value*w.mat+$("lin1").value*w.lin+$("hum1").value*w.hum+$("nat1").value*w.nat)/soma;
-const m2=($("mat2").value*w.mat+$("lin2").value*w.lin+$("hum2").value*w.hum+$("nat2").value*w.nat)/soma;
+  const soma = w.mat + w.lin + w.hum + w.nat;
 
-const corte=$("corte").value;
-const red=$("red").value;
+  const m1 =
+    (num(mat1.value)*w.mat +
+     num(lin1.value)*w.lin +
+     num(hum1.value)*w.hum +
+     num(nat1.value)*w.nat) / soma;
 
-const m3=(corte*10-m2*3-m1*2)/5;
-const sem=(m3*(w.red+soma)-red*w.red)/soma;
+  const m2 =
+    (num(mat2.value)*w.mat +
+     num(lin2.value)*w.lin +
+     num(hum2.value)*w.hum +
+     num(nat2.value)*w.nat) / soma;
 
-$("out3").textContent=fmt(m3);
-$("outSem").textContent=fmt(sem);
-$("out").classList.remove("hidden");
+  const corte = num($("corte").value);
+  const red = num($("red").value);
+
+  const m3 = (corte*10 - m2*3 - m1*2) / 5;
+  const sem = (m3*(w.red + soma) - red*w.red) / soma;
+
+  $("out3").textContent = fmt(m3);
+  $("outSem").textContent = fmt(sem);
+  $("out").classList.remove("hidden");
 }
 
+/* ===============================
+   Limpar
+================================ */
 function limpar(){
-document.querySelectorAll("input").forEach(i=>i.value="");
-$("out").classList.add("hidden");
+  document.querySelectorAll("input").forEach(i=>i.value="");
+  $("out").classList.add("hidden");
 }
 
-preencher();
+/* ===============================
+   Init
+================================ */
+$("curso").addEventListener("change",renderPesos);
+preencherCursos();
 </script>
 </body>
 </html>
