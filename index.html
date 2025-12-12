@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html lang="pt-br">
 <head>
 <meta charset="utf-8">
@@ -99,7 +99,7 @@ button{
     <div class="brand-text">
       <div class="name">Professor Pasqualotto</div>
       <div class="course">Forte na Matemática</div>
-      <div class="social">@profpasqualotto</div>
+      <div class="social">Sigam: @profpasqualotto</div>
     </div>
   </div>
   <div>
@@ -151,9 +151,10 @@ button{
   <input id="nat2" placeholder="NAT">
 </div>
 
-<div style="margin-top:14px">
+<div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
   <button class="primary" onclick="calcular()">Calcular</button>
   <button class="ghost" onclick="limpar()">Limpar</button>
+  <button class="ghost" onclick="compartilhar()">Compartilhar</button>
 </div>
 </div>
 
@@ -316,6 +317,24 @@ function limpar(){
 ================================ */
 $("curso").addEventListener("change",renderPesos);
 preencherCursos();
+
+function compartilhar(){
+  const url = window.location.href;
+  const texto = "Simulador de nota PASSE - Forte na Matemática";
+
+  if (navigator.share) {
+    navigator.share({
+      title: "Calculadora Nota PASSE",
+      text: texto,
+      url: url
+    });
+  } else {
+    navigator.clipboard.writeText(url);
+    alert("Link copiado! Agora é só colar no WhatsApp ou Instagram.");
+  }
+}
+
 </script>
 </body>
 </html>
+
