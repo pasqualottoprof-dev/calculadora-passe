@@ -1,369 +1,224 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Calculadora Nota PASSE — Forte na Matemática</title>
-  <style>
-    :root{
-      --turq:#17a2a4;
-      --orange:#ff7a00;
-      --bg:#f6f7fb;
-      --text:#0f172a;
-      --muted:#64748b;
-      --card:#ffffff;
-      --border:#e5e7eb;
-      --ok:#16a34a;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:var(--bg); color:var(--text);
-    }
-    .wrap{max-width:980px;margin:0 auto;padding:24px}
-    header{
-      background: linear-gradient(90deg,var(--orange),#ff9d3a);
-      border-radius:16px; padding:18px 18px; color:#fff;
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-    }
-    header h1{margin:0;font-size:22px;line-height:1.2}
-    header .sub{opacity:.95;font-size:13px}
-    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:16px}
-    @media (max-width:900px){.grid{grid-template-columns:1fr}}
-    .card{
-      background:var(--card); border:1px solid var(--border); border-radius:16px;
-      padding:16px;
-      box-shadow: 0 6px 18px rgba(2,6,23,.06);
-    }
-    .card h2{margin:0 0 10px 0;font-size:16px}
-    .muted{color:var(--muted);font-size:13px;margin:0 0 10px 0}
-    label{display:block;font-size:13px;color:var(--muted);margin:10px 0 6px}
-    input, select{
-      width:100%; padding:10px 12px; border:1px solid var(--border);
-      border-radius:12px; font-size:14px; outline:none; background:#fff;
-    }
-    input:focus, select:focus{border-color:rgba(23,162,164,.65); box-shadow:0 0 0 3px rgba(23,162,164,.14)}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .row4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    @media (max-width:700px){.row4{grid-template-columns:1fr 1fr}}
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      background: rgba(23,162,164,.12);
-      color: #0b5f61; border:1px solid rgba(23,162,164,.25);
-      padding:8px 10px; border-radius:999px; font-size:13px; margin-top:10px;
-    }
-    .weights{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px}
-    @media (max-width:700px){.weights{grid-template-columns:1fr 1fr 1fr}}
-    .wbox{
-      background:#fff; border:1px dashed rgba(255,122,0,.45);
-      border-radius:14px; padding:10px; text-align:center;
-    }
-    .wbox b{display:block;font-size:16px;color:#111827}
-    .wbox span{font-size:12px;color:var(--muted)}
-    .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-    button{
-      appearance:none; border:0; border-radius:12px; padding:10px 14px;
-      font-size:14px; cursor:pointer;
-    }
-    .primary{background:var(--turq);color:#fff}
-    .ghost{background:#fff;border:1px solid var(--border);color:#111827}
-    .out{
-      display:grid; gap:10px; margin-top:10px;
-    }
-    .out .big{
-      border-radius:16px; padding:14px;
-      border:1px solid rgba(22,163,74,.25);
-      background: rgba(22,163,74,.08);
-    }
-    .out .big .k{font-size:13px;color:var(--muted)}
-    .out .big .v{font-size:28px;font-weight:800;color:var(--ok)}
-    .out .small{
-      border-radius:16px; padding:12px;
-      border:1px solid var(--border); background:#fff;
-    }
-    .foot{margin-top:16px;color:var(--muted);font-size:12px}
-    .warn{color:#b45309;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);padding:10px;border-radius:12px;font-size:13px}
-    .hidden{display:none}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora Nota PASSE — Forte na Matemática</title>
+
+<style>
+:root{
+  --orange:#ff7a00;
+  --blue:#1e3a8a;
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --ok:#16a34a;
+  --border:#e5e7eb;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{max-width:980px;margin:auto;padding:24px}
+header{
+  background:linear-gradient(90deg,var(--orange),#ff9d3a);
+  color:#fff;
+  border-radius:16px;
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+}
+.brand{display:flex;align-items:center;gap:14px}
+.brand img{height:64px}
+.brand-text{line-height:1.15}
+.brand-text .name{font-weight:800;font-size:20px}
+.brand-text .course{font-size:13px}
+.brand-text .social{font-size:13px}
+
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:16px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 6px 18px rgba(2,6,23,.06)
+}
+h2{margin:0 0 10px;font-size:16px}
+label{font-size:13px;color:var(--muted);display:block;margin:10px 0 6px}
+input,select{
+  width:100%;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.weights{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px}
+.wbox{border:1px dashed var(--orange);border-radius:12px;padding:10px;text-align:center}
+button{
+  border:0;
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+}
+.primary{background:var(--blue);color:#fff}
+.ghost{background:#fff;border:1px solid var(--border)}
+.out{margin-top:10px;display:grid;gap:10px}
+.big{
+  background:rgba(22,163,74,.1);
+  border:1px solid rgba(22,163,74,.3);
+  border-radius:16px;
+  padding:14px
+}
+.big .v{font-size:28px;font-weight:800;color:var(--ok)}
+.hidden{display:none}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <div>
-        <h1>Calculadora Nota PASSE</h1>
-        <div class="sub">Forte na Matemática • Resultado instantâneo (sem planilha)</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-weight:700">Profº Pasqualotto</div>
-        <div class="sub">Simulação rápida</div>
-      </div>
-    </header>
+<div class="wrap">
 
-    <div class="grid">
-      <div class="card">
-        <h2>Dados do aluno</h2>
-        <p class="muted">Preencha e clique em <b>Calcular</b>. O resultado aparece na hora.</p>
-
-        <label for="nome">Nome completo</label>
-        <input id="nome" placeholder="Ex.: Luís Silva" />
-
-        <label for="curso">Curso</label>
-        <select id="curso"></select>
-
-        <div class="weights" id="weights"></div>
-
-        <div class="row">
-          <div>
-            <label for="corte">Nota de corte</label>
-            <input id="corte" type="number" min="0" max="1000" step="0.01" placeholder="Ex.: 690" />
-          </div>
-          <div>
-            <label for="red">Possível nota de redação</label>
-            <input id="red" type="number" min="0" max="1000" step="0.01" placeholder="Ex.: 900" />
-          </div>
-        </div>
-
-        <hr style="border:none;border-top:1px solid var(--border);margin:14px 0">
-
-        <h2>Notas por série</h2>
-        <p class="muted">Informe as notas das áreas na 1ª e 2ª séries.</p>
-
-        <label>1ª série</label>
-        <div class="row4">
-          <input id="mat1" type="number" min="0" max="1000" step="0.01" placeholder="Mat" />
-          <input id="lin1" type="number" min="0" max="1000" step="0.01" placeholder="Lin" />
-          <input id="hum1" type="number" min="0" max="1000" step="0.01" placeholder="Hum" />
-          <input id="nat1" type="number" min="0" max="1000" step="0.01" placeholder="Nat" />
-        </div>
-
-        <label>2ª série</label>
-        <div class="row4">
-          <input id="mat2" type="number" min="0" max="1000" step="0.01" placeholder="Mat" />
-          <input id="lin2" type="number" min="0" max="1000" step="0.01" placeholder="Lin" />
-          <input id="hum2" type="number" min="0" max="1000" step="0.01" placeholder="Hum" />
-          <input id="nat2" type="number" min="0" max="1000" step="0.01" placeholder="Nat" />
-        </div>
-
-        <div class="btnrow">
-          <button class="primary" id="btnCalc">Calcular</button>
-          <button class="ghost" id="btnClear">Limpar</button>
-        </div>
-
-        <div class="foot">
-          Fórmulas usadas: <br>
-          <b>média1</b> e <b>média2</b> = média ponderada pelas áreas (MAT/LIN/HUM/NAT). <br>
-          <b>3ª etapa</b> = (corte×10 − média2×3 − média1×2) ÷ 5. <br>
-          <b>sem redação</b> = (3ª etapa×(RED+somaPesos) − redação×RED) ÷ somaPesos.
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Resultado</h2>
-        <div class="warn" id="warn">
-          Preencha os campos e clique em <b>Calcular</b>.
-        </div>
-
-        <div class="out hidden" id="out">
-          <div class="small">
-            <div class="k">Aluno</div>
-            <div class="v" style="font-size:18px;font-weight:800;color:#111827" id="outNome">—</div>
-            <div class="k" style="margin-top:8px">Curso</div>
-            <div style="font-weight:700" id="outCurso">—</div>
-          </div>
-
-          <div class="big">
-            <div class="k">Média total necessária na 3ª etapa</div>
-            <div class="v" id="out3">0,00</div>
-          </div>
-
-          <div class="big">
-            <div class="k">Média na prova (tirando redação)</div>
-            <div class="v" id="outSemRed">0,00</div>
-          </div>
-
-          <div class="small">
-            <div class="k">Médias por série (ponderadas)</div>
-            <div style="display:flex;justify-content:space-between;gap:10px;margin-top:8px">
-              <div><b>1ª</b>: <span id="m1">0,00</span></div>
-              <div><b>2ª</b>: <span id="m2">0,00</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="foot">
-          Dica: salve o link desta página no seu Instagram/WhatsApp.
-        </div>
-      </div>
+<header>
+  <div class="brand">
+    <img src="logo.png" alt="Professor Pasqualotto">
+    <div class="brand-text">
+      <div class="name">Professor Pasqualotto</div>
+      <div class="course">Forte na Matemática</div>
+      <div class="social">@profpasqualotto</div>
     </div>
   </div>
+  <div>
+    <h1 style="margin:0;font-size:22px">Calculadora Nota PASSE</h1>
+    <div style="font-size:13px">Resultado instantâneo • sem planilha</div>
+  </div>
+</header>
 
-  <script>
-    // ===============================
-    // 1) COLE AQUI OS PESOS DOS CURSOS
-    // ===============================
-    // Formato:
-    // "NOME DO CURSO": { red:2, mat:1, lin:1, hum:1, nat:1 }
-  const PESOS_CURSOS = {
-  "ADMINISTRAÇÃO - BACHARELADO": { red:2, mat:1, lin:1, hum:1, nat:1 },
-  "AGRONOMIA - BACHARELADO": { red:2, mat:2, lin:1, hum:1, nat:2 },
-  "ARQUITETURA E URBANISMO - BACHARELADO": { red:2, mat:1, lin:1, hum:1, nat:1 },
-  "ARTES VISUAIS - BACHARELADO": { red:2, mat:1, lin:3, hum:3, nat:1 },
-  "ARTES VISUAIS - LICENCIATURA": { red:2, mat:1, lin:2, hum:2, nat:1 },
-  "AUDIOVISUAL - BACHARELADO": { red:2, mat:1, lin:1, hum:1, nat:1 },
-  "CIÊNCIA DA COMPUTAÇÃO - BACHARELADO": { red:2, mat:4, lin:2, hum:1, nat:2 },
-  "CIÊNCIAS BIOLÓGICAS - BACHARELADO": { red:2, mat:1, lin:1, hum:1, nat:2 },
-  "CIÊNCIAS BIOLÓGICAS - LICENCIATURA": { red:2, mat:1, lin:1, hum:1, nat:2 },
-  "CIÊNCIAS CONTÁBEIS - BACHARELADO": { red:2, mat:3, lin:1, hum:2, nat:1 },
-  "CIÊNCIAS ECONÔMICAS - BACHARELADO": { red:2, mat:3, lin:1, hum:2, nat:1 },
-  "CIÊNCIAS SOCIAIS - BACHARELADO": { red:2, mat:1, lin:2, hum:2, nat:1 },
-  "DIREITO - BACHARELADO": { red:2, mat:2, lin:2, hum:2, nat:1 },
-  "EDUCAÇÃO FÍSICA - BACHARELADO": { red:2, mat:1, lin:2, hum:2, nat:1 },
-  "EDUCAÇÃO FÍSICA - LICENCIATURA": { red:2, mat:1, lin:2, hum:2, nat:1 },
-  "ENFERMAGEM - BACHARELADO": { red:2, mat:1, lin:1, hum:1, nat:2 },
-  "ENGENHARIA AMBIENTAL - BACHARELADO": { red:2, mat:2, lin:1, hum:1, nat:2 },
-  "ENGENHARIA CIVIL - BACHARELADO": { red:2, mat:4, lin:1, hum:1, nat:3 },
-  "ENGENHARIA DE ALIMENTOS - BACHARELADO": { red:2, mat:1, lin:1, hum:1, nat:1 },
-  "ENGENHARIA DE COMPUTAÇÃO - BACHARELADO": { red:2, mat:3, lin:1, hum:1, nat:2 },
-  "ENGENHARIA DE PRODUÇÃO - BACHARELADO": { red:2, mat:3, lin:1, hum:1, nat:2 },
-  "ENGENHARIA DE SOFTWARE - BACHARELADO": { red:2, mat:3, lin:2, hum:1, nat:1 },
-  "ENGENHARIA ELÉTRICA - BACHARELADO": { red:2, mat:4, lin:2, hum:1, nat:3 },
-  "ENGENHARIA FÍSICA - BACHARELADO": { red:2, mat:2, lin:1, hum:1, nat:1 },
-  "ENGENHARIA FLORESTAL - BACHARELADO": { red:2, mat:2, lin:1, hum:1, nat:2 },
-  "ENGENHARIA QUÍMICA - BACHARELADO": { red:2, mat:2, lin:1, hum:1, nat:1 },
-  "FARMÁCIA - BACHARELADO": { red:2, mat:2, lin:1, hum:1, nat:2 },
-  "FILOSOFIA - LICENCIATURA": { red:2, mat:1, lin:1, hum:2, nat:1 },
-  "FÍSICA - BACHARELADO": { red:2, mat:3, lin:1, hum:1, nat:3 },
-  "FÍSICA - LICENCIATURA": { red:2, mat:3, lin:1, hum:1, nat:3 },
-  "FISIOTERAPIA - BACHARELADO": { red:2, mat:1, lin:1, hum:2, nat:2 },
-  "GEOGRAFIA - BACHARELADO": { red:2, mat:1, lin:1, hum:2, nat:2 },
-  "GEOGRAFIA - LICENCIATURA": { red:2, mat:1, lin:1, hum:2, nat:2 },
-  "HISTÓRIA - BACHARELADO": { red:2, mat:1, lin:1, hum:2, nat:1 },
-  "HISTÓRIA - LICENCIATURA": { red:2, mat:1, lin:1, hum:2, nat:1 },
-  "JORNALISMO - BACHARELADO": { red:2, mat:1, lin:2, hum:2, nat:1 },
-  "LETRAS - PORTUGUÊS - LICENCIATURA": { red:2, mat:1, lin:2, hum:1, nat:1 },
-  "LETRAS - PORTUGUÊS/ESPANHOL - LICENCIATURA": { red:2, mat:1, lin:2, hum:1, nat:1 },
-  "LETRAS - PORTUGUÊS/INGLÊS - LICENCIATURA": { red:2, mat:1, lin:2, hum:1, nat:1 },
-  "LETRAS - PORTUGUÊS/LITERATURA - LICENCIATURA": { red:2, mat:1, lin:2, hum:1, nat:1 },
-  "MATEMÁTICA - BACHARELADO": { red:2, mat:2, lin:1, hum:1, nat:1 },
-  "MATEMÁTICA - LICENCIATURA": { red:2, mat:2, lin:1, hum:1, nat:1 },
-  "MEDICINA - BACHARELADO": { red:2, mat:1, lin:2, hum:2, nat:3 },
-  "MEDICINA VETERINÁRIA - BACHARELADO": { red:2, mat:1, lin:1, hum:1, nat:3 },
-  "MÚSICA - LICENCIATURA": { red:2, mat:1, lin:1, hum:1, nat:1 },
-  "NUTRIÇÃO - BACHARELADO": { red:2, mat:1, lin:1, hum:2, nat:3 },
-  "ODONTOLOGIA - BACHARELADO": { red:2, mat:1, lin:2, hum:2, nat:3 },
-  "PEDAGOGIA - LICENCIATURA": { red:2, mat:1, lin:2, hum:2, nat:1 },
-  "PROCESSOS GERENCIAIS - TECNOLÓGICO": { red:2, mat:2, lin:1, hum:2, nat:1 },
-  "PSICOLOGIA - BACHARELADO": { red:2, mat:1, lin:1, hum:2, nat:1 },
-  "QUÍMICA - BACHARELADO EM QUÍMICA TECNOLÓGICA": { red:2, mat:2, lin:1, hum:1, nat:3 },
-  "QUÍMICA - LICENCIATURA": { red:2, mat:2, lin:1, hum:1, nat:3 },
-  "SISTEMAS DE INFORMAÇÃO - BACHARELADO": { red:2, mat:2, lin:2, hum:1, nat:1 },
-  "TURISMO - BACHARELADO": { red:2, mat:1, lin:2, hum:2, nat:1 },
-  "ZOOTECNIA - BACHARELADO": { red:2, mat:1, lin:1, hum:1, nat:3 }
+<div class="grid">
+
+<div class="card">
+<h2>Dados do aluno</h2>
+
+<label>Nome</label>
+<input id="nome">
+
+<label>Curso</label>
+<select id="curso"></select>
+
+<div class="weights" id="weights"></div>
+
+<div class="row">
+<div>
+<label>Nota de corte</label>
+<input id="corte" type="number">
+</div>
+<div>
+<label>Possível redação</label>
+<input id="red" type="number">
+</div>
+</div>
+
+<h2>Notas</h2>
+
+<label>1ª série</label>
+<div class="row4">
+<input id="mat1" placeholder="MAT">
+<input id="lin1" placeholder="LIN">
+<input id="hum1" placeholder="HUM">
+<input id="nat1" placeholder="NAT">
+</div>
+
+<label>2ª série</label>
+<div class="row4">
+<input id="mat2">
+<input id="lin2">
+<input id="hum2">
+<input id="nat2">
+</div>
+
+<div style="margin-top:14px">
+<button class="primary" onclick="calcular()">Calcular</button>
+<button class="ghost" onclick="limpar()">Limpar</button>
+</div>
+</div>
+
+<div class="card">
+<h2>Resultado</h2>
+<div id="out" class="out hidden">
+<div class="big">
+<div>Média necessária 3ª etapa</div>
+<div class="v" id="out3">0,00</div>
+</div>
+<div class="big">
+<div>Média sem redação</div>
+<div class="v" id="outSem">0,00</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+const PESOS_CURSOS = {
+"ADMINISTRAÇÃO - BACHARELADO":{red:2,mat:1,lin:1,hum:1,nat:1},
+"CIÊNCIA DA COMPUTAÇÃO - BACHARELADO":{red:2,mat:4,lin:1,hum:1,nat:2},
+"ENGENHARIA DE SOFTWARE - BACHARELADO":{red:2,mat:3,lin:1,hum:1,nat:1},
+"ENGENHARIA CIVIL - BACHARELADO":{red:2,mat:4,lin:1,hum:1,nat:3},
+"MEDICINA - BACHARELADO":{red:2,mat:1,lin:2,hum:2,nat:3}
 };
 
+const $=id=>document.getElementById(id);
+const fmt=n=>Number(n).toFixed(2).replace(".",",");
 
-    // ===============================
-    // Helpers
-    // ===============================
-    const $ = (id) => document.getElementById(id);
-    const fmt = (n) => (Number(n).toFixed(2)).replace(".", ",");
-    const num = (v) => {
-      const n = Number(String(v).replace(",", "."));
-      return isNaN(n) ? null : n;
-    };
+function preencher(){
+$("curso").innerHTML=Object.keys(PESOS_CURSOS).map(c=>`<option>${c}</option>`).join("");
+render();
+}
 
-    function preencherCursos() {
-      const sel = $("curso");
-      const cursos = Object.keys(PESOS_CURSOS).sort((a,b)=>a.localeCompare(b,'pt-BR'));
-      sel.innerHTML = cursos.map(c => `<option value="${c}">${c}</option>`).join("");
-      sel.value = cursos[0] || "";
-      renderPesos();
-    }
+function render(){
+const w=PESOS_CURSOS[$("curso").value];
+$("weights").innerHTML=`
+<div class="wbox">${w.red}<br>RED</div>
+<div class="wbox">${w.mat}<br>MAT</div>
+<div class="wbox">${w.lin}<br>LIN</div>
+<div class="wbox">${w.hum}<br>HUM</div>
+<div class="wbox">${w.nat}<br>NAT</div>`;
+}
 
-    function renderPesos() {
-      const c = $("curso").value;
-      const w = PESOS_CURSOS[c];
-      const el = $("weights");
-      if (!w) {
-        el.innerHTML = "";
-        return;
-      }
-      el.innerHTML = `
-        <div class="wbox"><b>${w.red}</b><span>RED</span></div>
-        <div class="wbox"><b>${w.mat}</b><span>MAT</span></div>
-        <div class="wbox"><b>${w.lin}</b><span>LIN</span></div>
-        <div class="wbox"><b>${w.hum}</b><span>HUM</span></div>
-        <div class="wbox"><b>${w.nat}</b><span>NAT</span></div>
-      `;
-    }
+$("curso").onchange=render;
 
-    function calcular() {
-      const nome = ($("nome").value || "").trim();
-      const curso = $("curso").value;
-      const w = PESOS_CURSOS[curso];
+function calcular(){
+const w=PESOS_CURSOS[$("curso").value];
+const soma=w.mat+w.lin+w.hum+w.nat;
 
-      const corte = num($("corte").value);
-      const red = num($("red").value);
+const m1=($("mat1").value*w.mat+$("lin1").value*w.lin+$("hum1").value*w.hum+$("nat1").value*w.nat)/soma;
+const m2=($("mat2").value*w.mat+$("lin2").value*w.lin+$("hum2").value*w.hum+$("nat2").value*w.nat)/soma;
 
-      const mat1 = num($("mat1").value);
-      const lin1 = num($("lin1").value);
-      const hum1 = num($("hum1").value);
-      const nat1 = num($("nat1").value);
+const corte=$("corte").value;
+const red=$("red").value;
 
-      const mat2 = num($("mat2").value);
-      const lin2 = num($("lin2").value);
-      const hum2 = num($("hum2").value);
-      const nat2 = num($("nat2").value);
+const m3=(corte*10-m2*3-m1*2)/5;
+const sem=(m3*(w.red+soma)-red*w.red)/soma;
 
-      // validação básica
-      const faltando = [];
-      if (!curso || !w) faltando.push("curso");
-      if (corte === null) faltando.push("nota de corte");
-      if (red === null) faltando.push("nota de redação");
-      const notas = [mat1,lin1,hum1,nat1,mat2,lin2,hum2,nat2];
-      if (notas.some(v => v === null)) faltando.push("todas as notas (1ª e 2ª séries)");
+$("out3").textContent=fmt(m3);
+$("outSem").textContent=fmt(sem);
+$("out").classList.remove("hidden");
+}
 
-      if (faltando.length) {
-        $("warn").classList.remove("hidden");
-        $("warn").textContent = "Faltando: " + faltando.join(", ") + ".";
-        $("out").classList.add("hidden");
-        return;
-      }
+function limpar(){
+document.querySelectorAll("input").forEach(i=>i.value="");
+$("out").classList.add("hidden");
+}
 
-      const somaAreas = w.mat + w.lin + w.hum + w.nat;
-
-      // médias ponderadas por série
-      const media1 = (mat1*w.mat + lin1*w.lin + hum1*w.hum + nat1*w.nat) / somaAreas;
-      const media2 = (mat2*w.mat + lin2*w.lin + hum2*w.hum + nat2*w.nat) / somaAreas;
-
-      // suas fórmulas
-      const media3 = (corte*10 - media2*3 - media1*2) / 5;
-      const semRed = (media3*(w.red + somaAreas) - red*w.red) / somaAreas;
-
-      $("warn").classList.add("hidden");
-      $("out").classList.remove("hidden");
-
-      $("outNome").textContent = nome || "—";
-      $("outCurso").textContent = curso;
-
-      $("out3").textContent = fmt(media3);
-      $("outSemRed").textContent = fmt(semRed);
-      $("m1").textContent = fmt(media1);
-      $("m2").textContent = fmt(media2);
-    }
-
-    function limpar() {
-      ["nome","corte","red","mat1","lin1","hum1","nat1","mat2","lin2","hum2","nat2"].forEach(id => $(id).value = "");
-      $("warn").classList.remove("hidden");
-      $("warn").textContent = "Preencha os campos e clique em Calcular.";
-      $("out").classList.add("hidden");
-    }
-
-    // init
-    $("curso").addEventListener("change", renderPesos);
-    $("btnCalc").addEventListener("click", calcular);
-    $("btnClear").addEventListener("click", limpar);
-    preencherCursos();
-  </script>
+preencher();
+</script>
 </body>
 </html>
