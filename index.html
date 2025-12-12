@@ -317,6 +317,7 @@ function limpar(){
 ================================ */
 $("curso").addEventListener("change",renderPesos);
 preencherCursos();
+normalizarNotas();
 
 function compartilhar(){
   const url = window.location.href;
@@ -333,6 +334,19 @@ function compartilhar(){
     alert("Link copiado! Agora é só colar no WhatsApp ou Instagram.");
   }
 }
+
+function normalizarNotas() {
+  const inputs = document.querySelectorAll(
+    "#corte, #red, #mat1, #lin1, #hum1, #nat1, #mat2, #lin2, #hum2, #nat2"
+  );
+
+  inputs.forEach(input => {
+    input.addEventListener("input", () => {
+      input.value = input.value.replace(",", ".");
+    });
+  });
+}
+
 
 </script>
 </body>
